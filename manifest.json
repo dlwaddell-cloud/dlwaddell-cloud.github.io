@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
-  "name": "ForgeSteel Sheet Viewer",
-  "version": "1.0.2",
-  "description": "Displays a character sheet from andyaiken.github.io/forgesteel/ in an iframe.",
+  "name": "ForgeSteel Viewer",
+  "version": "1.0.3",
+  "description": "Displays the main page of andyaiken.github.io/forgesteel/.",
   "author": "dlwaddell",
   "action": {
-    "title": "ForgeSteel Sheet",
-    "icon": "https://dlwaddell-cloud.github.io/FS.png",
-    "popover": "https://dlwaddell-cloud.github.io/action.html",
-    "width": 500,
-    "height": 700
+    "title": "ForgeSteel Viewer",
+    "icon": "/FS.png",
+    "popover": "/action.html",
+    "width": 1000,
+    "height": 800
   }
 }
