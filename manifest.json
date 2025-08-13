@@ -7,7 +7,7 @@
   "action": {
     "title": "ForgeSteel Sheet",
     "icon": "/icon.svg",
-    "popover": {
+    "modal": {
       "url": "https://dlwaddell-cloud.github.io/action",
       "width": 500,
       "height": 700
