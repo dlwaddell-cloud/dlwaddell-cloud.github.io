@@ -7,27 +7,104 @@
     <!-- Using Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom styles to ensure the iframe fills the entire popover */
+        /* Custom styles for the page */
         body, html {
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Prevent scrollbars on the body */
+            overflow: hidden;
             height: 100vh;
             width: 100vw;
             background-color: #252525;
+            color: #e0e0e0;
+        }
+        /* Make sure the views take up the full space */
+        .view {
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
-<body>
+<body class="font-sans">
 
-    <!-- This iframe directly loads the main ForgeSteel website -->
-    <iframe 
-        id="siteFrame"
-        src="https://andyaiken.github.io/forgesteel/"
-        class="w-full h-full border-0"
-        frameborder="0">
-            <p>Your browser does not support iframes.</p>
-    </iframe>
+    <!-- Instructions View -->
+    <div id="instructionsView" class="view flex flex-col items-center justify-center p-8">
+        <h1 class="text-3xl font-bold mb-6">OBR ForgeSteel Character Manager</h1>
+        <div class="max-w-lg text-left">
+            <h2 class="text-xl font-semibold mb-3">Instructions:</h2>
+            <ol id="instructionList" class="list-decimal list-inside space-y-3 bg-gray-800/50 p-6 rounded-lg">
+                <li>Open <a href="https://andyaiken.github.io/forgesteel/#/hero" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:underline">ForgeSteel</a> in a new tab.</li>
+                <li>Create your character if needed. Otherwise, open your character page.</li>
+                <li>Click the 'Export' drop down menu and choose 'Export As Data'.</li>
+                <li>Navigate back to the OBR ForgeSteel Character Manager.</li>
+                <li>Click the button below to Proceed to Hero Management.</li>
+                <li>Click the 'Add' button and choose 'Import a Hero File'.</li>
+                <li>At the end of your session, follow steps 1-3 again inside the OBR ForgeSteel Character Manager to save any changes from your session.</li>
+            </ol>
+            <div class="text-center mt-4">
+                 <a id="exportLink" href="#" target="_blank" rel="noopener noreferrer" class="text-sm text-indigo-400 hover:underline">Export these instructions to Google Drive</a>
+            </div>
+        </div>
+        <button 
+            id="loadHeroButton"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-lg mt-8"
+        >
+            Proceed to Hero Management
+        </button>
+    </div>
+
+    <!-- Iframe View (initially hidden) -->
+    <div id="iframeView" class="view hidden">
+        <iframe 
+            id="siteFrame"
+            src="https://andyaiken.github.io/forgesteel/#/hero"
+            class="w-full h-full border-0"
+            frameborder="0">
+                <p>Your browser does not support iframes.</p>
+        </iframe>
+    </div>
+
+    <script>
+        // Get references to the HTML elements
+        const instructionsView = document.getElementById('instructionsView');
+        const iframeView = document.getElementById('iframeView');
+        const loadHeroButton = document.getElementById('loadHeroButton');
+        const exportLink = document.getElementById('exportLink');
+
+        // --- Functionality for switching views ---
+        loadHeroButton.addEventListener('click', () => {
+            instructionsView.classList.add('hidden');
+            iframeView.classList.remove('hidden');
+        });
+
+        // --- Functionality for the Google Drive export link ---
+        function setupExportLink() {
+            const title = "OBR ForgeSteel Character Manager Instructions";
+            
+            // Manually define the instructions text for the document body
+            const instructionsText = [
+                "1. Open ForgeSteel in a new tab.",
+                "2. Create your character if needed. Otherwise, open your character page.",
+                "3. Click the 'Export' drop down menu and choose 'Export As Data'.",
+                "4. Navigate back to the OBR ForgeSteel Character Manager.",
+                "5. Click the button below to Proceed to Hero Management.",
+                "6. Click the 'Add' button and choose 'Import a Hero File'.",
+                "7. At the end of your session, follow steps 1-3 again inside the OBR ForgeSteel Character Manager to save any changes from your session."
+            ].join('\n\n'); // Use double newline for better spacing in the doc
+
+            // URL-encode the title and body for the link
+            const encodedTitle = encodeURIComponent(title);
+            const encodedBody = encodeURIComponent(instructionsText);
+
+            // Construct the full Google Docs URL
+            const googleDocsUrl = `https://docs.google.com/document/create?title=${encodedTitle}&body=${encodedBody}`;
+
+            // Set the href for the export link
+            exportLink.href = googleDocsUrl;
+        }
+
+        // Run the function to set up the link when the page loads
+        setupExportLink();
+    </script>
 
 </body>
 </html>
