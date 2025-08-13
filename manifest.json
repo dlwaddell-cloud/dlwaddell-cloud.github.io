@@ -6,8 +6,8 @@
   "author": "dlwaddell",
   "action": {
     "title": "ForgeSteel Viewer",
-    "icon": "/FS.png",
-    "popover": "/action.html",
+    "icon": "https://dlwaddell-cloud.github.io/FS.png",
+    "popover": "https://dlwaddell-cloud.github.io/action.html",
     "width": 1000,
     "height": 800
   }
