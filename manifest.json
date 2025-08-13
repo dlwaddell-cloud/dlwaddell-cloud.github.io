@@ -1,16 +1,14 @@
 {
   "manifest_version": 2,
   "name": "ForgeSteel Sheet Viewer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Displays a character sheet from andyaiken.github.io/forgesteel/ in an iframe.",
   "author": "Gemini",
   "action": {
     "title": "ForgeSteel Sheet",
     "icon": "/icon.svg",
-    "modal": {
-      "url": "https://dlwaddell-cloud.github.io/action",
-      "width": 500,
-      "height": 700
-    }
+    "popover": "https://dlwaddell-cloud.github.io/action.html",
+    "width": 500,
+    "height": 700
   }
 }
