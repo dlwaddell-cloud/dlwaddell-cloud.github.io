@@ -1,14 +1,16 @@
 {
-  "manifest_version": 2,
-  "name": "ForgeSteel Viewer",
-  "version": "1.0.3",
-  "description": "Displays the main page of andyaiken.github.io/forgesteel/.",
-  "author": "dlwaddell",
+  "name": "OBR ForgeSteel Character Manager",
+  "version": "1.0.4",
+  "manifest_version": 1,
+  "author": "Derrick Waddell",
+  "homepage_url": "https://dlwaddell-cloud.github.io/",
+  "icon": "/fsicon.svg",
+  "description": "OBR wrapper for managing DrawSteel characters built in ForgeSteel",
   "action": {
     "title": "ForgeSteel Viewer",
-    "icon": "https://dlwaddell-cloud.github.io/FS.png",
-    "popover": "https://dlwaddell-cloud.github.io/action.html",
-    "width": 500,
-    "height": 800
+    "icon": "/fsicon.svg",
+    "popover": "action.html",
+    "height": 600,
+    "width": 400
   }
 }
