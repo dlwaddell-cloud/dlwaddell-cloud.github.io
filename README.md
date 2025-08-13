@@ -1,48 +1,49 @@
-Birmingham Dart League Score Sheet
-This repository contains the front-end code for the official Birmingham Dart League score sheet, designed to simplify scorekeeping for league matches. It allows teams to digitally record game scores, calculate totals, and submit results for tracking and analysis.
+OBR ForgeSteel Character Manager
+Overview
+This is an extension for Owl Bear Rodeo that provides an in-game popover to manage your character sheets from the ForgeSteel website (andyaiken.github.io/forgesteel/).
+
+The extension first displays a set of instructions on how to export your character data from the ForgeSteel site. After you proceed, it loads the ForgeSteel hero management page directly within the Owl Bear Rodeo interface, allowing you to import, view, and update your character without leaving the game.
 
 Features
-Intuitive Score Entry: Easy-to-use input fields for various game formats (Singles 501, Singles Cricket, Doubles 301, Doubles Cricket, Team Vulcan Cricket / 701).
+Instructions Page: A clear, step-by-step guide on how to export your character data from ForgeSteel and import it into the manager.
 
-Dynamic Team Selection: Select Away and Home teams from a predefined, alphabetically sorted list of league teams using dropdown menus.
+Google Drive Export: A handy link to export the instructions to a Google Doc for easy reference.
 
-Dynamic Player Labels: The "Away Team Player" and "Home Team Player" labels automatically update to reflect the selected team names, providing a personalized experience.
+Embedded Manager: Loads the ForgeSteel hero page directly in an iframe, giving you full access to the site's features.
 
-Player Name Visibility Toggle: For each game section, buttons allow users to hide or show player name input fields for both Away and Home teams, useful for focusing on score entry or for privacy.
+Simple Interface: A clean and straightforward user experience.
 
-Automatic Score Calculation: Points for each game type are automatically totaled, and a grand total for both Away and Home teams is displayed at the top.
+Installation
+Download the Files: Make sure you have the manifest.json, action.html, and icon.svg (or FS.png) files in a single folder on your computer.
 
-Score Submission: A "Submit Scores" button sends the recorded game data to a Google Apps Script backend (configured separately) for data collection.
+Open Owl Bear Rodeo: Navigate to your Owl Bear Rodeo dashboard.
 
-View Live Scores: A "View Scores" button provides a direct link to a Google Looker Studio dashboard, allowing users to see submitted scores and league statistics in real-time.
+Go to Extensions: Click on your profile picture in the bottom-left corner and select Extensions.
 
-Responsive Design: The layout is designed to be user-friendly and adaptable across various devices, from mobile phones to desktop computers.
+Add Extension: Click the Add Extension button.
+
+Select Manifest: In the file dialog, navigate to your project folder and select the manifest.json file.
+
+Enable in Room: Open an OBR room, click the Extensions icon (puzzle piece) in the bottom-left toolbar, and enable the "ForgeSteel Viewer" extension.
 
 How to Use
-Select Teams: At the top of the page, use the "Select Away Team" and "Select Home Team" dropdowns to choose the participating teams. The player labels in each game section will update accordingly.
+After installing, click the ForgeSteel Viewer icon in your OBR toolbar.
 
-Enter Player Names (Optional): In each game section, enter the names of the players participating in that specific game.
+Read the instructions provided on the initial screen.
 
-Record Points: For each player in each game, enter 0 if they lost the game or 1 if they won the game. The system will automatically calculate the totals for each game and the grand totals for each team.
+Follow the steps to export your character data from the ForgeSteel website.
 
-Submit Scores: Once all scores are entered and verified, click the "Submit Scores" button at the top right of the page. A message will confirm successful submission or indicate an error.
+Click the "Proceed to Hero Management" button.
 
-View Scores: To see all submitted scores and league statistics, click the "View Scores" button at the top left of the page. This will open the league's Looker Studio dashboard in a new tab.
+The ForgeSteel hero page will load. Click the 'Add' button and choose 'Import a Hero File' to load your character.
 
-Technical Details
-Frontend: The website is built using plain HTML, CSS (with Tailwind CSS for utility-first styling), and JavaScript.
+At the end of your session, remember to export your character data again from within the manager to save any changes you made.
 
-Backend (Google Apps Script): Score submissions are handled by a Google Apps Script Web App. This script receives the form data and typically logs it to a Google Sheet, which then feeds into the Looker Studio dashboard.
+Files in this Project
+manifest.json: The extension's manifest file. It defines the name, description, author, and action properties for the extension.
 
-Data Visualization (Google Looker Studio): The "View Scores" link directs to a Google Looker Studio report that visualizes the submitted data.
+action.html: The HTML file that creates the popover window, including the initial instructions page and the iframe that loads the ForgeSteel website.
 
-Note: The GOOGLE_APPS_SCRIPT_URL in the JavaScript code needs to be replaced with your actual deployed Google Apps Script Web App URL for submissions to work.
+icon.svg / FS.png: The icon that appears in the OBR toolbar.
 
-Future Enhancements
-Player Roster Integration: Auto-populate player names based on selected teams.
-
-Error Handling: More robust client-side validation for score entry.
-
-Offline Capability: Implement local storage to allow scorekeeping even without an internet connection, with synchronization upon reconnection.
-
-Authentication: Add user authentication to restrict submission access.
+Author: Derrick Waddell
