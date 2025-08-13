@@ -41,7 +41,7 @@
                 <li>At the end of your session, follow steps 1-3 again inside the OBR ForgeSteel Character Manager to save any changes from your session.</li>
             </ol>
             <div class="text-center mt-4">
-                 <a id="exportLink" href="#" target="_blank" rel="noopener noreferrer" class="text-sm text-indigo-400 hover:underline">Export these instructions to Google Drive</a>
+                 <a id="downloadLink" href="#" download="charactermanager.txt" class="text-sm text-indigo-400 hover:underline">Download these instructions</a>
             </div>
         </div>
         <button 
@@ -68,7 +68,7 @@
         const instructionsView = document.getElementById('instructionsView');
         const iframeView = document.getElementById('iframeView');
         const loadHeroButton = document.getElementById('loadHeroButton');
-        const exportLink = document.getElementById('exportLink');
+        const downloadLink = document.getElementById('downloadLink');
 
         // --- Functionality for switching views ---
         loadHeroButton.addEventListener('click', () => {
@@ -76,12 +76,12 @@
             iframeView.classList.remove('hidden');
         });
 
-        // --- Functionality for the Google Drive export link ---
-        function setupExportLink() {
-            const title = "OBR ForgeSteel Character Manager Instructions";
-            
-            // Manually define the instructions text for the document body
+        // --- Functionality for the download link ---
+        function setupDownloadLink() {
             const instructionsText = [
+                "OBR ForgeSteel Character Manager Instructions",
+                "---------------------------------------------",
+                "",
                 "1. Open ForgeSteel in a new tab.",
                 "2. Create your character if needed. Otherwise, open your character page.",
                 "3. Click the 'Export' drop down menu and choose 'Export As Data'.",
@@ -89,21 +89,17 @@
                 "5. Click the button below to Proceed to Hero Management.",
                 "6. Click the 'Add' button and choose 'Import a Hero File'.",
                 "7. At the end of your session, follow steps 1-3 again inside the OBR ForgeSteel Character Manager to save any changes from your session."
-            ].join('\n\n'); // Use double newline for better spacing in the doc
+            ].join('\n');
 
-            // URL-encode the title and body for the link
-            const encodedTitle = encodeURIComponent(title);
-            const encodedBody = encodeURIComponent(instructionsText);
+            // Create a data URL for the text content that can be downloaded
+            const dataUrl = 'data:text/plain;charset=utf-8,' + encodeURIComponent(instructionsText);
 
-            // Construct the full Google Docs URL
-            const googleDocsUrl = `https://docs.google.com/document/create?title=${encodedTitle}&body=${encodedBody}`;
-
-            // Set the href for the export link
-            exportLink.href = googleDocsUrl;
+            // Set the href for the download link
+            downloadLink.href = dataUrl;
         }
 
         // Run the function to set up the link when the page loads
-        setupExportLink();
+        setupDownloadLink();
     </script>
 
 </body>
