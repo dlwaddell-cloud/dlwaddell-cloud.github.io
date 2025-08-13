@@ -8,7 +8,7 @@
     "title": "ForgeSteel Viewer",
     "icon": "https://dlwaddell-cloud.github.io/FS.png",
     "popover": "https://dlwaddell-cloud.github.io/action.html",
-    "width": 1000,
+    "width": 500,
     "height": 800
   }
 }
