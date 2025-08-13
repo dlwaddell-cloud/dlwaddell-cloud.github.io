@@ -6,7 +6,7 @@
   "author": "Gemini",
   "action": {
     "title": "ForgeSteel Sheet",
-    "icon": "/icon.svg",
+    "icon": "https://dlwaddell-cloud.github.io/icon.svg",
     "popover": "https://dlwaddell-cloud.github.io/action.html",
     "width": 500,
     "height": 700
