@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ForgeSteel Character Viewer</title>
+    <!-- Using Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles to better match the OBR dark theme */
+        body {
+            background-color: #252525; /* A dark gray background */
+            color: #e0e0e0;
+            overflow: hidden; /* Prevent scrollbars on the body itself */
+        }
+        /* Style for the input field */
+        input::placeholder {
+            color: #8f8f8f;
+        }
+    </style>
+</head>
+<body class="font-sans flex flex-col h-screen p-3">
+
+    <!-- Section for URL input and load button -->
+    <div id="controls" class="flex items-center gap-2 mb-3 flex-shrink-0">
+        <input 
+            type="url" 
+            id="sheetUrlInput" 
+            placeholder="Paste ForgeSteel Share URL here" 
+            class="flex-grow bg-gray-800 text-white rounded-lg px-3 py-2 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+        >
+        <button 
+            id="loadButton" 
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+        >
+            Load
+        </button>
+    </div>
+
+    <!-- Container where the character sheet iframe will be displayed -->
+    <div id="iframeContainer" class="flex-grow w-full h-full border border-gray-700 rounded-lg bg-gray-900/50 flex items-center justify-center">
+        <p class="text-center text-gray-400">Your character sheet will appear here.</p>
+    </div>
+
+    <script>
+        // Get references to the HTML elements
+        const urlInput = document.getElementById('sheetUrlInput');
+        const loadButton = document.getElementById('loadButton');
+        const iframeContainer = document.getElementById('iframeContainer');
+
+        // This is a regular expression to validate the URL. It ensures only valid ForgeSteel URLs can be loaded.
+        const validUrlPattern = /^https:\/\/andyaiken\.github\.io\/forgesteel\/#\/hero\/view\/.+/;
+
+        // Function to load the URL into the iframe
+        const loadSheet = () => {
+            const url = urlInput.value.trim();
+
+            // Check if the URL matches the expected pattern
+            if (validUrlPattern.test(url)) {
+                // Clear the placeholder text or any previous iframe
+                iframeContainer.innerHTML = '';
+                
+                // Create a new iframe element
+                const iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.className = 'w-full h-full border-0 rounded-lg'; // Style the iframe
+                iframe.setAttribute('frameborder', '0');
+                
+                // Add the iframe to the container
+                iframeContainer.appendChild(iframe);
+            } else {
+                // If the URL is invalid, show an error message
+                iframeContainer.innerHTML = '<p class="text-center p-8 text-red-400 font-semibold">Please enter a valid ForgeSteel character sheet share URL.</p>';
+            }
+        };
+
+        // Add event listener to the button to call the loadSheet function on click
+        loadButton.addEventListener('click', loadSheet);
+
+        // Add event listener to the input field to load the sheet when 'Enter' is pressed
+        urlInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevents any default 'Enter' key behavior
+                loadSheet();
+            }
+        });
+    </script>
+
+</body>
+</html>
