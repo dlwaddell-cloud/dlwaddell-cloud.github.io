@@ -3,7 +3,7 @@
   "name": "ForgeSteel Sheet Viewer",
   "version": "1.0.2",
   "description": "Displays a character sheet from andyaiken.github.io/forgesteel/ in an iframe.",
-  "author": "Gemini",
+  "author": "dlwaddell",
   "action": {
     "title": "ForgeSteel Sheet",
     "icon": "https://dlwaddell-cloud.github.io/icon.svg",
