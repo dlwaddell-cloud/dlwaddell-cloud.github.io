@@ -9,7 +9,7 @@
   "action": {
     "title": "ForgeSteel Viewer",
     "icon": "/fsicon.svg",
-    "popover": "action.html",
+    "popover": "/action.html",
     "height": 600,
     "width": 400
   }
