@@ -48,7 +48,7 @@
         
         <!-- FIX: Added light/dark classes -->
         <p class="text-gray-500 dark:text-gray-400 text-xs mb-3">
-            Enter moves in the "Current Move" box and press Enter. The PGN will build above. Scroll to the bottom to export.
+            Enter moves in the "Current Move" box and press Enter. The PGN will build above.
         </p>
 
         <!-- MODIFIED: Main layout wrapper (now single column) -->
@@ -408,7 +408,7 @@ ${formattedMovesString}${resultString}`;
             // Create a temporary link to trigger the download
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'game.png';
+            link.download = 'game.pgn';
             
             // Append to DOM, click, and remove
             document.body.appendChild(link);
@@ -554,6 +554,7 @@ ${formattedMovesString}${resultString}`;
     </script>
 </body>
 </html>
+
 
 
 
