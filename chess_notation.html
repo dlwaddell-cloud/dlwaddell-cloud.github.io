@@ -314,7 +314,7 @@ ${formattedMovesString}${resultString}`;
             // Create a temporary link to trigger the download
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'game.pgn';
+            link.download = 'game.png';
             
             // Append to DOM, click, and remove
             document.body.appendChild(link);
@@ -343,7 +343,7 @@ ${formattedMovesString}${resultString}`;
 
         /**
          * --- MODIFIED: Lichess Export Function ---
-         * Uses a hidden form to POST to lichess.org/import
+         * Copies the PGN to the clipboard and opens the Lichess import page in a new tab.
          */
         function handleExportLichess() {
             const pgnContent = getFullPgnContent();
@@ -353,28 +353,39 @@ ${formattedMovesString}${resultString}`;
                 return;
             }
 
-            // Create a hidden form
-            const form = document.createElement('form');
-            form.method = 'POST';
-            // --- FIX: Changed action URL from /paste to /import ---
-            form.action = 'https://lichess.org/import';
-            form.target = '_blank'; // Open in a new tab
-
-            // Create a hidden input field for the PGN data
-            const pgnData = document.createElement('input');
-            pgnData.type = 'hidden';
-            pgnData.name = 'pgn';
-            pgnData.value = pgnContent;
+            // --- Clipboard Copy Logic ---
+            // 1. Create a temporary textarea
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = pgnContent;
             
-            // Add the input to the form
-            form.appendChild(pgnData);
-            
-            // Add the form to the document, submit it, and then remove it
-            document.body.appendChild(form);
-            form.submit();
-            document.body.removeChild(form);
+            // 2. Style it to be off-screen
+            tempTextArea.style.position = 'fixed';
+            tempTextArea.style.top = '-9999px';
+            tempTextArea.style.left = '-9999px';
 
-            showMessage('Opening Lichess import...', false);
+            // 3. Add to DOM, select, and copy
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            
+            let success = false;
+            try {
+                // Use document.execCommand('copy') as it's more reliable in iFrames
+                success = document.execCommand('copy');
+            } catch (err) {
+                console.error('Failed to copy PGN:', err);
+            }
+            
+            // 4. Remove from DOM
+            document.body.removeChild(tempTextArea);
+
+            // 5. Open Lichess and show message
+            if (success) {
+                // Open lichess.org/paste (which is the correct import page)
+                window.open('https://lichess.org/paste', '_blank');
+                showMessage('PGN copied! Paste it into the new Lichess tab.', false);
+            } else {
+                showMessage('Failed to auto-copy. Please export PGN and paste manually.', true);
+            }
         }
 
         // Add event listeners
@@ -430,3 +441,4 @@ ${formattedMovesString}${resultString}`;
     </script>
 </body>
 </html>
+
