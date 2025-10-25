@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +21,8 @@
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white h-full flex items-center justify-center p-4">
+<!-- FIX: Changed h-full, items-center to min-h-screen, items-start and adjusted padding -->
+<body class="bg-gray-900 text-white min-h-screen flex items-start justify-center p-4 sm:p-8">
 
     <!-- Main Content Card --><div class="bg-gray-800 shadow-xl rounded-2xl p-4 w-full max-w-lg">
         <h1 class="text-xl font-bold text-center mb-3">Chess PGN Exporter</h1>
@@ -44,7 +45,8 @@
                 <!-- Current Move Input -->
                 <div>
                     <label for="move-input" class="block text-xs font-medium text-gray-300 mb-1">Current Move</label>
-                    <input type="text" id="move-input" class="w-full p-2 bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Type move (e.g., e4) and press Enter">
+                    <!-- FIX: Added inputmode="none" to prevent mobile keyboard -->
+                    <input type="text" id="move-input" class="w-full p-2 bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Type move (e.g., e4) and press Enter" inputmode="none">
                 </div>
             </div>
 
@@ -446,5 +448,4 @@ ${formattedMovesString}${resultString}`;
     </script>
 </body>
 </html>
-
 
