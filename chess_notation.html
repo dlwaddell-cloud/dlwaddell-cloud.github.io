@@ -136,14 +136,15 @@
         // --- Button Definitions ---
         const quickEntryGrid = document.getElementById('quick-entry-grid');
         // Adjusted layout to match the new image
+        // FIX: Renamed 'Undo Move' to 'Undo' and 'Clear All' to 'Clear'
         const buttonsLayout = [
             'R', 'a', '1', '+',
             'N', 'b', '2', '#',
             'B', 'c', '3', null,
             'Q', 'd', '4', 'Enter', // Green button
             'K', 'e', '5', 'Backspace',
-            'x', 'f', '6', 'Undo Move',
-            'O-O', 'g', '7', 'Clear All', // Red button
+            'x', 'f', '6', 'Undo',
+            'O-O', 'g', '7', 'Clear', // Red button
             'O-O-O', 'h', '8', null
         ];
         // Buttons that should NOT have a space added after them
@@ -161,7 +162,7 @@
                 let classes = defaultButtonClasses;
                 if (label === 'Enter') {
                     classes = "w-full py-1.5 px-1 bg-green-600 hover:bg-green-700 text-white font-mono rounded-md text-center transition duration-150 notation-button";
-                } else if (label === 'Clear All') {
+                } else if (label === 'Clear') { // FIX: Changed from 'Clear All'
                     classes = "w-full py-1.5 px-1 bg-red-600 hover:bg-red-700 text-white font-mono rounded-md text-center transition duration-150 notation-button";
                 } else {
                     classes += " notation-button"; // Add the delegation class
@@ -407,14 +408,14 @@ ${formattedMovesString}${resultString}`;
             const value = button.dataset.value;
 
             switch (value) {
-                case 'Clear All': // This "Clear" is for the quick entry grid
+                case 'Clear': // FIX: Changed from 'Clear All'
                     handleClearAll();
                     break;
                 case 'Backspace':
                     // NEW: Affects moveInput
                     moveInput.value = moveInput.value.slice(0, -1);
                     break;
-                case 'Undo Move':
+                case 'Undo': // FIX: Changed from 'Undo Move'
                     // NEW: Uses undoStack
                     if (undoStack.length > 0) {
                         moves = undoStack.pop();
