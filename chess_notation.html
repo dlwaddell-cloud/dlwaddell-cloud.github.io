@@ -1,10 +1,27 @@
 <!DOCTYPE html>
+<!-- FIX: Removed class="dark", script will handle it -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess PGN Exporter</title>
     <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- NEW: Configure Tailwind with custom colors -->
+    <script>
+        tailwind.config = {
+            // NEW: Add darkMode 'class' strategy
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'gray-550': '#5B6472', // Halfway between gray-500 (#6b7280) and gray-600 (#4b5563)
+                        'gray-650': '#414B5A', // Halfway between gray-600 (#4b5563) and gray-700 (#374151)
+                        'gray-750': '#2B3544'  // Halfway between gray-700 (#374151) and gray-800 (#1f2937)
+                    }
+                }
+            }
+        }
+    </script>
     <!-- Load Inter font --><link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -22,85 +39,102 @@
     </style>
 </head>
 <!-- FIX: Changed h-full, items-center to min-h-screen, items-start and adjusted padding -->
-<body class="bg-gray-900 text-white min-h-screen flex items-start justify-center p-4 sm:p-8">
+<!-- FIX: Added light/dark classes -->
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex items-start justify-center p-4 sm:p-8">
 
-    <!-- Main Content Card --><div class="bg-gray-800 shadow-xl rounded-2xl p-4 w-full max-w-lg">
+    <!-- Main Content Card --><!-- FIX: Added light/dark classes -->
+    <div class="bg-gray-100 dark:bg-gray-800 shadow-xl rounded-2xl p-4 w-full max-w-lg">
         <h1 class="text-xl font-bold text-center mb-3">Chess PGN Exporter</h1>
         
-        <p class="text-gray-400 text-xs mb-3">
-            Enter moves in the "Current Move" box and press Enter. The PGN will build above.
+        <!-- FIX: Added light/dark classes -->
+        <p class="text-gray-500 dark:text-gray-400 text-xs mb-3">
+            Enter moves in the "Current Move" box and press Enter. The PGN will build above. Scroll to the bottom to export.
         </p>
 
-        <!-- NEW: Main layout wrapper (2 columns on desktop, 1 on mobile) -->
-        <div class="flex flex-col sm:flex-row gap-4">
+        <!-- MODIFIED: Main layout wrapper (now single column) -->
+        <div class="flex flex-col gap-4">
             
-            <!-- Left Column (PGN Display & Move Input) -->
-            <div class="w-full sm:w-1/2 flex flex-col gap-3">
+            <!-- MODIFIED: Left Column (PGN Display & Move Input) - now full width -->
+            <div class="w-full flex flex-col gap-3">
                 <!-- PGN Input Area -->
                 <div>
-                    <label for="pgn-input" class="block text-xs font-medium text-gray-300 mb-1">PGN Notation (Read-only)</label>
-                    <textarea id="pgn-input" rows="3" class="w-full p-2 bg-gray-900 border-2 border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="1. e4 e5 2. Nf3 Nc6 ..." readonly></textarea>
+                    <!-- FIX: Added light/dark classes -->
+                    <label for="pgn-input" class="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">PGN Notation (Read-only)</label>
+                    <!-- FIX: Added light/dark classes -->
+                    <textarea id="pgn-input" rows="3" class="w-full p-2 bg-gray-200 dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="1. e4 e5 2. Nf3 Nc6 ..." readonly></textarea>
                 </div>
 
                 <!-- Current Move Input -->
                 <div>
-                    <label for="move-input" class="block text-xs font-medium text-gray-300 mb-1">Current Move</label>
+                    <!-- FIX: Added light/dark classes -->
+                    <label for="move-input" class="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">Current Move</label>
                     <!-- FIX: Added inputmode="none" to prevent mobile keyboard -->
-                    <input type="text" id="move-input" class="w-full p-2 bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Type move (e.g., e4) and press Enter" inputmode="none">
+                    <!-- FIX: Added light/dark classes -->
+                    <input type="text" id="move-input" class="w-full p-2 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Type move (e.g., e4) and press Enter" inputmode="none">
                 </div>
             </div>
 
-            <!-- Right Column (Header Fields) -->
-            <div class="w-full sm:w-1/2 flex flex-col gap-3">
-                <!-- White Player -->
-                <div>
-                    <!-- <label for="white-player" class="block text-xs font-medium text-gray-300 mb-1">White player</label> -->
-                    <input type="text" id="white-player" class="w-full p-2 text-sm bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="White player">
-                </div>
-                <!-- Black Player -->
-                <div>
-                    <!-- <label for="black-player" class="block text-xs font-medium text-gray-300 mb-1">Black Player</label> -->
-                    <input type="text" id="black-player" class="w-full p-2 text-sm bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Black Player">
-                </div>
-                <!-- Event -->
-                <div>
-                    <!-- <label for="event-name" class="block text-xs font-medium text-gray-300 mb-1">Event</label> -->
-                    <input type="text" id="event-name" class="w-full p-2 text-sm bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Event">
-                </div>
-
-                <!-- Date and Result Row -->
-                <div class="flex gap-3">
-                    <!-- Date -->
-                    <div class="w-1/2">
-                        <!-- <label for="game-date" class="block text-xs font-medium text-gray-300 mb-1">Date</label> -->
-                        <input type="date" id="game-date" title="Game Date" class="w-full p-2 text-sm bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150 appearance-none">
-                    </div>
-                    <!-- Result -->
-                    <div class="w-1/2">
-                        <!-- <label for="game-result" class="block text-xs font-medium text-gray-300 mb-1">Result</label> -->
-                        <select id="game-result" class="w-full p-2 text-sm bg-gray-700 border-2 border-gray-600 rounded-lg text-white focus:border-blue-500 transition duration-150 appearance-none">
-                            <option value="" disabled selected hidden>Result</option>
-                            <option value="*">* (In Progress)</option>
-                            <option value="1-0">1-0 (White Wins)</option>
-                            <option value="0-1">0-1 (Black Wins)</option>
-                            <option value="1/2-1/2">1/2-1/2 (Draw)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+            <!-- MOVED: Right Column (Header Fields) was here -->
         </div>
 
         <!-- Quick Entry Buttons --><div class="mt-4">
-            <label class="block text-xs font-medium text-gray-300 mb-1">Quick Entry</label>
+            <!-- FIX: Added light/dark classes -->
+            <label class="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">Quick Entry</label>
             <div id="quick-entry-grid" class="grid grid-cols-4 gap-1.5">
                 <!-- Buttons will be dynamically generated here --></div>
         </div>
 
+        <!-- NEW LOCATION: Header Fields -->
+        <div class="w-full flex flex-col gap-3 mt-4">
+            <!-- White Player -->
+            <div>
+                <!-- <label for="white-player" class="block text-xs font-medium text-gray-300 mb-1">White player</label> -->
+                <!-- FIX: Added light/dark classes -->
+                <input type="text" id="white-player" class="w-full p-2 text-sm bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="White player">
+            </div>
+            <!-- Black Player -->
+            <div>
+                <!-- <label for="black-player" class="block text-xs font-medium text-gray-300 mb-1">Black Player</label> -->
+                <!-- FIX: Added light/dark classes -->
+                <input type="text" id="black-player" class="w-full p-2 text-sm bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Black Player">
+            </div>
+            <!-- Event -->
+            <div>
+                <!-- <label for="event-name" class="block text-xs font-medium text-gray-300 mb-1">Event</label> -->
+                <!-- FIX: Added light/dark classes -->
+                <input type="text" id="event-name" class="w-full p-2 text-sm bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Event">
+            </div>
+
+            <!-- Date and Result Row -->
+            <div class="flex gap-3">
+                <!-- Date -->
+                <div class="w-1/2">
+                    <!-- <label for="game-date" class="block text-xs font-medium text-gray-300 mb-1">Date</label> -->
+                    <!-- FIX: Added light/dark classes -->
+                    <input type="date" id="game-date" title="Game Date" class="w-full p-2 text-sm bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150 appearance-none">
+                </div>
+                <!-- Result -->
+                <div class="w-1/2">
+                    <!-- <label for="game-result" class="block text-xs font-medium text-gray-300 mb-1">Result</label> -->
+                    <!-- FIX: Added light/dark classes -->
+                    <select id="game-result" class="w-full p-2 text-sm bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:border-blue-500 transition duration-150 appearance-none">
+                        <option value="" disabled selected hidden>Result</option>
+                        <option value="*">* (In Progress)</option>
+                        <option value="1-0">1-0 (White Wins)</option>
+                        <option value="0-1">0-1 (Black Wins)</option>
+                        <option value="1/2-1/2">1/2-1/2 (Draw)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
         <!-- Action Buttons (Export) --><div class="mt-4 flex flex-col sm:flex-row gap-2">
-            <button id="export-pgn-button" class="w-full sm:w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md">
+            <!-- FIX: Added light/dark classes -->
+            <button id="export-pgn-button" class="w-full sm:w-1/2 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md">
                 Export PGN
             </button>
-            <button id="export-lichess-button" class="w-full sm:w-1/2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md">
+            <!-- FIX: Added light/dark classes -->
+            <button id="export-lichess-button" class="w-full sm:w-1/2 bg-purple-500 hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md">
                 Export to Lichess
             </button>
         </div>
@@ -108,13 +142,21 @@
         <!-- Message Box --><div id="message-box" class="text-xs text-center mt-3 h-5 transition-opacity duration-300 ease-out">
             <!-- Messages will appear here --></div>
 
-        <!-- NEW: Lichess Export Instructions -->
-        <p class="text-gray-500 text-xs text-center mt-3">
+        <!-- NEW: Lichess Export Instructions --><!-- FIX: Added light/dark classes -->
+        <p class="text-gray-500 dark:text-gray-500 text-xs text-center mt-3">
             Using 'Export to Lichess' will copy your PGN and redirect you to Lichess where you can paste it.
         </p>
     </div>
 
     <script>
+        // --- Dark Mode Initialization ---
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        // --- End Dark Mode Initialization ---
+
         // Get elements
         const pgnInput = document.getElementById('pgn-input');
         const moveInput = document.getElementById('move-input');
@@ -132,6 +174,8 @@
         // NEW: State management for moves
         let moves = [];
         let undoStack = []; // This will store previous 'moves' arrays
+        // NEW: Store reference to toggle button
+        let toggleModeButton = null;
 
         // --- Button Definitions ---
         const quickEntryGrid = document.getElementById('quick-entry-grid');
@@ -145,27 +189,52 @@
             'K', 'e', '5', 'Backspace',
             'x', 'f', '6', 'Undo',
             'O-O', 'g', '7', 'Clear', // Red button
-            'O-O-O', 'h', '8', null
+            'O-O-O', 'h', '8', 'Toggle Mode' // FIX: Added Toggle Mode button
         ];
         // Buttons that should NOT have a space added after them
         const noSpaceButtons = new Set(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', '1', '2', '3', '4', '5', '6', '7', '8', '+', '#', 'x']);
         // COMPACTED: py-1.5 instead of py-2
-        const defaultButtonClasses = "w-full py-1.5 px-1 bg-gray-600 hover:bg-gray-500 text-white font-mono rounded-md text-center transition duration-150";
+        // FIX: Removed default bg-gray-600, will be added dynamically
+        const defaultButtonClasses = "w-full py-1.5 px-1 text-white font-mono rounded-md text-center transition duration-150";
+
+        // FIX: Define column colors
+        const columnColors = [
+            'bg-gray-500 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-550', // Col 1
+            'bg-gray-550 hover:bg-gray-500 dark:bg-gray-650 dark:hover:bg-gray-600', // Col 2
+            'bg-gray-600 hover:bg-gray-550 dark:bg-gray-700 dark:hover:bg-gray-650', // Col 3
+            'bg-gray-650 hover:bg-gray-600 dark:bg-gray-750 dark:hover:bg-gray-700'  // Col 4
+        ];
 
         // --- Generate Quick Entry Buttons ---
-        buttonsLayout.forEach(label => {
+        buttonsLayout.forEach((label, index) => { // Added index
             if (label) {
                 const button = document.createElement('button');
                 button.type = 'button';
                 button.dataset.value = label;
                 
                 let classes = defaultButtonClasses;
+                const columnIndex = index % 4; // Get column index (0-3)
+
                 if (label === 'Enter') {
-                    classes = "w-full py-1.5 px-1 bg-green-600 hover:bg-green-700 text-white font-mono rounded-md text-center transition duration-150 notation-button";
+                    // This string REPLACES defaultButtonClasses
+                    // FIX: Added light/dark classes
+                    classes = "w-full py-1.5 px-1 text-white font-mono rounded-md text-center transition duration-150 bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 notation-button";
                 } else if (label === 'Clear') { // FIX: Changed from 'Clear All'
-                    classes = "w-full py-1.5 px-1 bg-red-600 hover:bg-red-700 text-white font-mono rounded-md text-center transition duration-150 notation-button";
+                     // This string REPLACES defaultButtonClasses
+                    classes = "w-full py-1.5 px-1 text-white font-mono rounded-md text-center transition duration-150 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 notation-button";
+                } else if (label === 'Toggle Mode') { // NEW: Added Toggle Mode button
+                     // This string REPLACES defaultButtonClasses
+                    classes = "w-full py-1.5 px-1 text-white font-mono rounded-md text-center transition duration-150 bg-gray-750 hover:bg-gray-700 dark:bg-gray-750 dark:hover:bg-gray-800 notation-button";
+                    // NEW: Store the button reference
+                    toggleModeButton = button;
                 } else {
-                    classes += " notation-button"; // Add the delegation class
+                    // This string ADDS to defaultButtonClasses
+                    classes += ` ${columnColors[columnIndex]} notation-button`;
+                    
+                    // NEW: Add font-bold based on user request
+                    if (columnIndex < 3 || label === '+' || label === '#') {
+                        classes += ' font-bold';
+                    }
                 }
                 
                 button.className = classes;
@@ -177,6 +246,19 @@
                 quickEntryGrid.appendChild(spacer);
             }
         });
+
+        // NEW: Function to update toggle button text
+        function updateToggleModeButtonText() {
+            if (!toggleModeButton) return;
+            if (document.documentElement.classList.contains('dark')) {
+                toggleModeButton.textContent = 'Light Mode';
+            } else {
+                toggleModeButton.textContent = 'Dark Mode';
+            }
+        }
+        
+        // NEW: Set initial button text after buttons are created
+        updateToggleModeButtonText();
 
         // --- NEW: Set default date ---
         gameDateInput.value = new Date().toISOString().split('T')[0];
@@ -245,6 +327,7 @@
          * Shows a message to the user and fades it out.
          * @param {string} text - The message to display.
          * @param {boolean} isError - True for error (red), false for success (green).
+         .
          */
         function showMessage(text, isError = false) {
             // Clear any existing fade-out timeout
@@ -253,12 +336,15 @@
             }
 
             messageBox.textContent = text;
-            messageBox.classList.remove('text-red-400', 'text-green-400', 'opacity-0');
+            // FIX: Added light/dark classes
+            messageBox.classList.remove('text-red-600', 'dark:text-red-400', 'text-green-600', 'dark:text-green-400', 'opacity-0');
             
             if (isError) {
-                messageBox.classList.add('text-red-400');
+                // FIX: Added light/dark classes
+                messageBox.classList.add('text-red-600', 'dark:text-red-400');
             } else {
-                messageBox.classList.add('text-green-400');
+                // FIX: Added light/dark classes
+                messageBox.classList.add('text-green-600', 'dark:text-green-400');
             }
 
             // Set timeout to fade out
@@ -350,6 +436,22 @@ ${formattedMovesString}${resultString}`;
         }
 
         /**
+         * --- NEW: Toggles light/dark mode ---
+         */
+        function handleToggleMode() {
+            const htmlEl = document.documentElement;
+            if (htmlEl.classList.contains('dark')) {
+                htmlEl.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlEl.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            // NEW: Update button text after toggling
+            updateToggleModeButtonText();
+        }
+
+        /**
          * --- MODIFIED: Lichess Export Function ---
          * Copies the PGN to the clipboard and opens the Lichess import page in a new tab.
          */
@@ -426,6 +528,9 @@ ${formattedMovesString}${resultString}`;
                     // NEW: Commits the move
                     commitMove();
                     break;
+                case 'Toggle Mode': // NEW: Handle toggle
+                    handleToggleMode();
+                    break;
                 default:
                     // NEW: Appends to moveInput
                     moveInput.value += value;
@@ -449,4 +554,11 @@ ${formattedMovesString}${resultString}`;
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
 
