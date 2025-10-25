@@ -343,7 +343,7 @@ ${formattedMovesString}${resultString}`;
 
         /**
          * --- MODIFIED: Lichess Export Function ---
-         * Uses a hidden form to POST to lichess.org/paste
+         * Uses a hidden form to POST to lichess.org/import
          */
         function handleExportLichess() {
             const pgnContent = getFullPgnContent();
@@ -356,7 +356,8 @@ ${formattedMovesString}${resultString}`;
             // Create a hidden form
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = 'https://lichess.org/paste';
+            // --- FIX: Changed action URL from /paste to /import ---
+            form.action = 'https://lichess.org/import';
             form.target = '_blank'; // Open in a new tab
 
             // Create a hidden input field for the PGN data
@@ -429,5 +430,3 @@ ${formattedMovesString}${resultString}`;
     </script>
 </body>
 </html>
-
-
