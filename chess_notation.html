@@ -107,27 +107,29 @@
             </div>
 
             <!-- Right Column (Date & Result) -->
+            <!-- FIX: Reverted to stacked layout to match image -->
             <div class="w-full sm:w-1/2 flex flex-col gap-3">
-                <!-- Date and Result Row -->
-                <div class="flex gap-3">
-                    <!-- Date -->
-                    <div class="w-1/2">
-                        <!-- <label for="game-date" class="block text-xs font-medium text-gray-300 mb-1">Date</label> -->
-                        <!-- FIX: Added light/dark classes -->
-                        <input type="date" id="game-date" title="Game Date" class="w-full p-2 text-sm bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150 appearance-none">
-                    </div>
-                    <!-- Result -->
-                    <div class="w-1/2">
-                        <!-- <label for="game-result" class="block text-xs font-medium text-gray-300 mb-1">Result</label> -->
-                        <!-- FIX: Added light/dark classes -->
-                        <select id="game-result" class="w-full p-2 text-sm bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:border-blue-500 transition duration-150 appearance-none">
-                            <option value="" disabled selected hidden>Result</option>
-                            <option value="*">* (In Progress)</option>
-                            <option value="1-0">1-0 (White Wins)</option>
-                            <option value="0-1">0-1 (Black Wins)</option>
-                            <option value="1/2-1/2">1/2-1/2 (Draw)</option>
-                        </select>
-                    </div>
+                <!-- Date -->
+                <div>
+                    <!-- <label for="game-date" class="block text-xs font-medium text-gray-300 mb-1">Date</label> -->
+                    <!-- FIX: Added light/dark classes -->
+                    <input type="date" id="game-date" title="Game Date" class="w-full p-2 text-sm bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150 appearance-none">
+                </div>
+                <!-- Result -->
+                <div>
+                    <!-- <label for="game-result" class="block text-xs font-medium text-gray-300 mb-1">Result</label> -->
+                    <!-- FIX: Added light/dark classes -->
+                    <select id="game-result" class="w-full p-2 text-sm bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:border-blue-500 transition duration-150 appearance-none">
+                        <option value="" disabled selected hidden>Result</option>
+                        <option value="*">* (In Progress)</option>
+                        <option value="1-0">1-0 (White Wins)</option>
+                        <option value="0-1">0-1 (Black Wins)</option>
+                        <option value="1/2-1/2">1/2-1/2 (Draw)</option>
+                    </select>
+                </div>
+                <!-- NEW: Round (Moved here) -->
+                <div>
+                    <input type="text" id="game-round" class="w-full p-2 text-sm bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Round">
                 </div>
             </div>
         </div>
@@ -175,6 +177,7 @@
         const eventNameInput = document.getElementById('event-name');
         const gameDateInput = document.getElementById('game-date');
         const gameResultInput = document.getElementById('game-result');
+        const roundInput = document.getElementById('game-round'); // NEW
 
         const exportPgnButton = document.getElementById('export-pgn-button');
         const exportLichessButton = document.getElementById('export-lichess-button');
@@ -389,6 +392,7 @@
             // NEW: Get values from header inputs, with checks
             const eventName = eventNameInput ? eventNameInput.value.trim() : '?';
             const gameDate = gameDateInput && gameDateInput.value ? gameDateInput.value.replace(/-/g, '.') : new Date().toISOString().split('T')[0].replace(/-/g, '.');
+            const gameRound = roundInput ? roundInput.value.trim() : '?'; // NEW
             const whitePlayer = whitePlayerInput ? whitePlayerInput.value.trim() : '?';
             const blackPlayer = blackPlayerInput ? blackPlayerInput.value.trim() : '?';
             const result = gameResultInput ? gameResultInput.value : '*'; // Get result from dropdown, default to '*'
@@ -408,7 +412,7 @@
             return `[Event "${eventName || '?'}"]
 [Site "Web PGN Exporter"]
 [Date "${gameDate || '?'}"]
-[Round "?"]
+[Round "${gameRound || '?'}"]
 [White "${whitePlayer || '?'}"]
 [Black "${blackPlayer || '?'}"]
 [Result "${result || '*'}"]
@@ -643,4 +647,6 @@ ${formattedMovesString}${resultString}`;
     </script>
 </body>
 </html>
+
+
 
