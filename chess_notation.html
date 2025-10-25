@@ -63,88 +63,97 @@
                     <!-- FIX: Added light/dark classes -->
                     <textarea id="pgn-input" rows="3" class="w-full p-2 bg-gray-200 dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="1. e4 e5 2. Nf3 Nc6 ..." readonly></textarea>
                 </div>
-
-                <!-- Current Move Input -->
+                
+                <!-- RE-ADDED: Current Move Input -->
                 <div>
                     <!-- FIX: Added light/dark classes -->
                     <label for="move-input" class="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">Current Move</label>
-                    <!-- FIX: Added inputmode="none" to prevent mobile keyboard -->
-                    <!-- FIX: Added light/dark classes -->
-                    <input type="text" id="move-input" class="w-full p-2 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Type move (e.g., e4) and press Enter" inputmode="none">
+                    <!-- FIX: Added light/dark classes and inputmode="none" -->
+                    <input type="text" id="move-input" class="w-full p-2 bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Type move (e.g., e4) and press Enter" inputmode="none">
                 </div>
             </div>
-
-            <!-- MOVED: Right Column (Header Fields) was here -->
+            <!-- RE-ADDED: This div was part of the original flex-col gap-4 -->
         </div>
 
-        <!-- Quick Entry Buttons --><div class="mt-4">
+        <!-- RE-ADDED: Quick Entry Buttons --><div class="mt-4">
             <!-- FIX: Added light/dark classes -->
             <label class="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">Quick Entry</label>
             <div id="quick-entry-grid" class="grid grid-cols-4 gap-1.5">
                 <!-- Buttons will be dynamically generated here --></div>
         </div>
 
-        <!-- NEW LOCATION: Header Fields -->
-        <div class="w-full flex flex-col gap-3 mt-4">
-            <!-- White Player -->
-            <div>
-                <!-- <label for="white-player" class="block text-xs font-medium text-gray-300 mb-1">White player</label> -->
-                <!-- FIX: Added light/dark classes -->
-                <input type="text" id="white-player" class="w-full p-2 text-sm bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="White player">
-            </div>
-            <!-- Black Player -->
-            <div>
-                <!-- <label for="black-player" class="block text-xs font-medium text-gray-300 mb-1">Black Player</label> -->
-                <!-- FIX: Added light/dark classes -->
-                <input type="text" id="black-player" class="w-full p-2 text-sm bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Black Player">
-            </div>
-            <!-- Event -->
-            <div>
-                <!-- <label for="event-name" class="block text-xs font-medium text-gray-300 mb-1">Event</label> -->
-                <!-- FIX: Added light/dark classes -->
-                <input type="text" id="event-name" class="w-full p-2 text-sm bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Event">
+        <!-- RE-ADDED: Game Header Fields (now below quick entry) -->
+        <div class="mt-4 flex flex-col sm:flex-row gap-4">
+            <!-- Left Column (Player & Event) -->
+            <div class="w-full sm:w-1/2 flex flex-col gap-3">
+                <!-- White Player -->
+                <div>
+                    <!-- <label for="white-player" class="block text-xs font-medium text-gray-300 mb-1">White player</label> -->
+                    <!-- FIX: Added light/dark classes -->
+                    <input type="text" id="white-player" class="w-full p-2 text-sm bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="White player">
+                </div>
+                <!-- Black Player -->
+                <div>
+                    <!-- <label for="black-player" class="block text-xs font-medium text-gray-300 mb-1">Black Player</label> -->
+                    <!-- FIX: Added light/dark classes -->
+                    <input type="text" id="black-player" class="w-full p-2 text-sm bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Black Player">
+                </div>
+                <!-- Event -->
+                <div>
+                    <!-- <label for="event-name" class="block text-xs font-medium text-gray-300 mb-1">Event</label> -->
+                    <!-- FIX: Added light/dark classes -->
+                    <input type="text" id="event-name" class="w-full p-2 text-sm bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Event">
+                </div>
             </div>
 
-            <!-- Date and Result Row -->
-            <div class="flex gap-3">
-                <!-- Date -->
-                <div class="w-1/2">
-                    <!-- <label for="game-date" class="block text-xs font-medium text-gray-300 mb-1">Date</label> -->
-                    <!-- FIX: Added light/dark classes -->
-                    <input type="date" id="game-date" title="Game Date" class="w-full p-2 text-sm bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150 appearance-none">
-                </div>
-                <!-- Result -->
-                <div class="w-1/2">
-                    <!-- <label for="game-result" class="block text-xs font-medium text-gray-300 mb-1">Result</label> -->
-                    <!-- FIX: Added light/dark classes -->
-                    <select id="game-result" class="w-full p-2 text-sm bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:border-blue-500 transition duration-150 appearance-none">
-                        <option value="" disabled selected hidden>Result</option>
-                        <option value="*">* (In Progress)</option>
-                        <option value="1-0">1-0 (White Wins)</option>
-                        <option value="0-1">0-1 (Black Wins)</option>
-                        <option value="1/2-1/2">1/2-1/2 (Draw)</option>
-                    </select>
+            <!-- Right Column (Date & Result) -->
+            <div class="w-full sm:w-1/2 flex flex-col gap-3">
+                <!-- Date and Result Row -->
+                <div class="flex gap-3">
+                    <!-- Date -->
+                    <div class="w-1/2">
+                        <!-- <label for="game-date" class="block text-xs font-medium text-gray-300 mb-1">Date</label> -->
+                        <!-- FIX: Added light/dark classes -->
+                        <input type="date" id="game-date" title="Game Date" class="w-full p-2 text-sm bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 transition duration-150 appearance-none">
+                    </div>
+                    <!-- Result -->
+                    <div class="w-1/2">
+                        <!-- <label for="game-result" class="block text-xs font-medium text-gray-300 mb-1">Result</label> -->
+                        <!-- FIX: Added light/dark classes -->
+                        <select id="game-result" class="w-full p-2 text-sm bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:border-blue-500 transition duration-150 appearance-none">
+                            <option value="" disabled selected hidden>Result</option>
+                            <option value="*">* (In Progress)</option>
+                            <option value="1-0">1-0 (White Wins)</option>
+                            <option value="0-1">0-1 (Black Wins)</option>
+                            <option value="1/2-1/2">1/2-1/2 (Draw)</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Action Buttons (Export) --><div class="mt-4 flex flex-col sm:flex-row gap-2">
-            <!-- FIX: Added light/dark classes -->
-            <button id="export-pgn-button" class="w-full sm:w-1/2 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md">
+        <!-- Action Buttons (Export) --><!-- FIX: Changed to sm:w-1/3 for all buttons -->
+        <div class="mt-4 flex flex-col sm:flex-row gap-2">
+            <!-- FIX: Added light/dark classes, changed to sm:w-1/3 -->
+            <button id="export-pgn-button" class="w-full sm:w-1/3 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md">
                 Export PGN
             </button>
-            <!-- FIX: Added light/dark classes -->
-            <button id="export-lichess-button" class="w-full sm:w-1/2 bg-purple-500 hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md">
+            <!-- FIX: Added light/dark classes, changed to sm:w-1/3 -->
+            <button id="export-lichess-button" class="w-full sm:w-1/3 bg-purple-500 hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md">
                 Export to Lichess
+            </button>
+            <!-- NEW: "Export to Chess.com" button -->
+            <button id="export-chesscom-button" class="w-full sm:w-1/3 bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md">
+                Export to Chess.com
             </button>
         </div>
 
         <!-- Message Box --><div id="message-box" class="text-xs text-center mt-3 h-5 transition-opacity duration-300 ease-out">
             <!-- Messages will appear here --></div>
 
-        <!-- NEW: Lichess Export Instructions --><!-- FIX: Added light/dark classes -->
+        <!-- NEW: Lichess Export Instructions --><!-- FIX: Added light/dark classes and updated text -->
         <p class="text-gray-500 dark:text-gray-500 text-xs text-center mt-3">
-            Using 'Export to Lichess' will copy your PGN and redirect you to Lichess where you can paste it.
+            Using 'Export to Lichess' or 'Export to Chess.com' will copy your PGN and redirect you to the site where you can paste it.
         </p>
     </div>
 
@@ -169,6 +178,7 @@
 
         const exportPgnButton = document.getElementById('export-pgn-button');
         const exportLichessButton = document.getElementById('export-lichess-button');
+        const exportChessComButton = document.getElementById('export-chesscom-button'); // NEW
         const messageBox = document.getElementById('message-box');
         let messageTimeout;
         // NEW: State management for moves
@@ -224,6 +234,7 @@
                     classes = "w-full py-1.5 px-1 text-white font-mono rounded-md text-center transition duration-150 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 notation-button";
                 } else if (label === 'Toggle Mode') { // NEW: Added Toggle Mode button
                      // This string REPLACES defaultButtonClasses
+                    // FIX: Added dark mode hover
                     classes = "w-full py-1.5 px-1 text-white font-mono rounded-md text-center transition duration-150 bg-gray-750 hover:bg-gray-700 dark:bg-gray-750 dark:hover:bg-gray-800 notation-button";
                     // NEW: Store the button reference
                     toggleModeButton = button;
@@ -261,7 +272,10 @@
         updateToggleModeButtonText();
 
         // --- NEW: Set default date ---
-        gameDateInput.value = new Date().toISOString().split('T')[0];
+        // FIX: Check if gameDateInput exists before setting value
+        if (gameDateInput) {
+            gameDateInput.value = new Date().toISOString().split('T')[0];
+        }
 
         // --- NEW: PGN Rendering Function ---
         /**
@@ -285,7 +299,10 @@
                 }
             }
             
-            pgnInput.value = formattedMovesString.trim();
+            // FIX: Check if pgnInput exists
+            if(pgnInput) {
+                pgnInput.value = formattedMovesString.trim();
+            }
         }
 
         // --- NEW: Commit Move Function ---
@@ -293,6 +310,9 @@
          * Commits the move from the move-input field to the state.
          */
         function commitMove() {
+            // FIX: Check if moveInput exists
+            if (!moveInput) return;
+
             const newMove = moveInput.value.trim();
             if (!newMove) {
                 return; // Don't commit empty moves
@@ -302,7 +322,10 @@
             const results = ['1-0', '0-1', '1/2-1/2', '*'];
             if (results.includes(newMove)) {
                 // If it is, set the dropdown and don't add to moves
-                gameResultInput.value = newMove;
+                // FIX: Check if gameResultInput exists
+                if(gameResultInput) {
+                    gameResultInput.value = newMove;
+                }
                 moveInput.value = '';
                 moveInput.focus();
                 return;
@@ -327,9 +350,11 @@
          * Shows a message to the user and fades it out.
          * @param {string} text - The message to display.
          * @param {boolean} isError - True for error (red), false for success (green).
-         .
          */
         function showMessage(text, isError = false) {
+            // FIX: Check if messageBox exists
+            if (!messageBox) return;
+
             // Clear any existing fade-out timeout
             if (messageTimeout) {
                 clearTimeout(messageTimeout);
@@ -358,34 +383,35 @@
          * @returns {string} The full PGN string.
          */
         function getFullPgnContent() {
-            let text = pgnInput.value.trim();
+            // FIX: Check if pgnInput exists
+            let text = pgnInput ? pgnInput.value.trim() : "";
             
-            // NEW: Get values from header inputs
-            const eventName = eventNameInput.value.trim() || '?';
-            const gameDate = gameDateInput.value ? gameDateInput.value.replace(/-/g, '.') : new Date().toISOString().split('T')[0].replace(/-/g, '.');
-            const whitePlayer = whitePlayerInput.value.trim() || '?';
-            const blackPlayer = blackPlayerInput.value.trim() || '?';
-            const result = gameResultInput.value || '*'; // Get result from dropdown, default to '*'
+            // NEW: Get values from header inputs, with checks
+            const eventName = eventNameInput ? eventNameInput.value.trim() : '?';
+            const gameDate = gameDateInput && gameDateInput.value ? gameDateInput.value.replace(/-/g, '.') : new Date().toISOString().split('T')[0].replace(/-/g, '.');
+            const whitePlayer = whitePlayerInput ? whitePlayerInput.value.trim() : '?';
+            const blackPlayer = blackPlayerInput ? blackPlayerInput.value.trim() : '?';
+            const result = gameResultInput ? gameResultInput.value : '*'; // Get result from dropdown, default to '*'
             
             let formattedMovesString = text; // Already formatted
             
             // This logic is no longer needed, as `commitMove` handles results
             // if (moves.length > 0) { ... }
             
-            let resultString = result;
-            if (result === '*') {
+            let resultString = result || '*'; // Ensure result is not null/undefined
+            if (resultString === '*') {
                 resultString = ''; // Don't append '*' to the end of the move list
             } else {
-                resultString = ` ${result}`; // Append '1-0', '0-1', or '1/2-1/2'
+                resultString = ` ${resultString}`; // Append '1-0', '0-1', or '1/2-1/2'
             }
 
-            return `[Event "${eventName}"]
+            return `[Event "${eventName || '?'}"]
 [Site "Web PGN Exporter"]
-[Date "${gameDate}"]
+[Date "${gameDate || '?'}"]
 [Round "?"]
-[White "${whitePlayer}"]
-[Black "${blackPlayer}"]
-[Result "${result}"]
+[White "${whitePlayer || '?'}"]
+[Black "${blackPlayer || '?'}"]
+[Result "${result || '*'}"]
 
 ${formattedMovesString}${resultString}`;
         }
@@ -397,7 +423,8 @@ ${formattedMovesString}${resultString}`;
         function handleExportPgn() {
             const pgnContent = getFullPgnContent();
 
-            if (!pgnInput.value.trim()) {
+            // FIX: Check if pgnInput exists
+            if (!pgnInput || !pgnInput.value.trim()) {
                 showMessage('Please enter chess notation first.', true);
                 return;
             }
@@ -430,9 +457,12 @@ ${formattedMovesString}${resultString}`;
             }
             moves = [];
             renderPgnFromMoves(); // Update display
-            moveInput.value = ''; // Clear move input
+            // FIX: Check if moveInput exists
+            if (moveInput) {
+                moveInput.value = ''; // Clear move input
+                moveInput.focus();
+            }
             showMessage('Input cleared.', false);
-            moveInput.focus();
         }
 
         /**
@@ -458,7 +488,8 @@ ${formattedMovesString}${resultString}`;
         function handleExportLichess() {
             const pgnContent = getFullPgnContent();
             
-            if (!pgnInput.value.trim()) {
+            // FIX: Check if pgnInput exists
+            if (!pgnInput || !pgnInput.value.trim()) {
                 showMessage('Please enter chess notation to export to Lichess.', true);
                 return;
             }
@@ -497,69 +528,119 @@ ${formattedMovesString}${resultString}`;
                 showMessage('Failed to auto-copy. Please export PGN and paste manually.', true);
             }
         }
+        
+        /**
+         * NEW: Chess.com Export Function
+         * Copies the PGN to the clipboard and opens the Chess.com analysis page in a new tab.
+         */
+        function handleExportChessCom() {
+            const pgnContent = getFullPgnContent();
+            
+            // FIX: Check if pgnInput exists
+            if (!pgnInput || !pgnInput.value.trim()) {
+                showMessage('Please enter chess notation to export to Chess.com.', true);
+                return;
+            }
+
+            // --- Clipboard Copy Logic (Same as Lichess) ---
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = pgnContent;
+            tempTextArea.style.position = 'fixed';
+            tempTextArea.style.top = '-9999px';
+            tempTextArea.style.left = '-9999px';
+
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            
+            let success = false;
+            try {
+                success = document.execCommand('copy');
+            } catch (err) {
+                console.error('Failed to copy PGN:', err);
+            }
+            
+            document.body.removeChild(tempTextArea);
+
+            if (success) {
+                // Open chess.com/analysis
+                window.open('https://www.chess.com/analysis', '_blank');
+                showMessage('PGN copied! Paste it into the new Chess.com tab.', false);
+            } else {
+                showMessage('Failed to auto-copy. Please export PGN and paste manually.', true);
+            }
+        }
 
         // Add event listeners
-        exportPgnButton.addEventListener('click', handleExportPgn);
-        exportLichessButton.addEventListener('click', handleExportLichess);
+        // FIX: Add checks for button existence
+        if(exportPgnButton) exportPgnButton.addEventListener('click', handleExportPgn);
+        if(exportLichessButton) exportLichessButton.addEventListener('click', handleExportLichess);
+        if(exportChessComButton) exportChessComButton.addEventListener('click', handleExportChessCom);
         
         // --- Quick Entry Button Listener (using event delegation) ---
-        quickEntryGrid.addEventListener('click', (e) => {
-            const button = e.target.closest('.notation-button');
-            if (!button) return; // Clicked on grid gap
+        // FIX: Add check for grid existence
+        if (quickEntryGrid) {
+            quickEntryGrid.addEventListener('click', (e) => {
+                const button = e.target.closest('.notation-button');
+                if (!button) return; // Clicked on grid gap
 
-            const value = button.dataset.value;
+                const value = button.dataset.value;
 
-            switch (value) {
-                case 'Clear': // FIX: Changed from 'Clear All'
-                    handleClearAll();
-                    break;
-                case 'Backspace':
-                    // NEW: Affects moveInput
-                    moveInput.value = moveInput.value.slice(0, -1);
-                    break;
-                case 'Undo': // FIX: Changed from 'Undo Move'
-                    // NEW: Uses undoStack
-                    if (undoStack.length > 0) {
-                        moves = undoStack.pop();
-                        renderPgnFromMoves();
-                    }
-                    break;
-                case 'Enter':
-                    // NEW: Commits the move
-                    commitMove();
-                    break;
-                case 'Toggle Mode': // NEW: Handle toggle
-                    handleToggleMode();
-                    break;
-                default:
-                    // NEW: Appends to moveInput
-                    moveInput.value += value;
-                    // Add a space *unless* it's a file, rank, or special character
-                    if (!noSpaceButtons.has(value)) {
-                        moveInput.value += ' ';
-                    }
-            }
-            // NEW: Always focus moveInput
-            moveInput.focus();
-        });
+                switch (value) {
+                    case 'Clear': // FIX: Changed from 'Clear All'
+                        handleClearAll();
+                        break;
+                    case 'Backspace':
+                        // NEW: Affects moveInput
+                        // FIX: Check if moveInput exists
+                        if (moveInput) {
+                            moveInput.value = moveInput.value.slice(0, -1);
+                        }
+                        break;
+                    case 'Undo': // FIX: Changed from 'Undo Move'
+                        // NEW: Uses undoStack
+                        if (undoStack.length > 0) {
+                            moves = undoStack.pop();
+                            renderPgnFromMoves();
+                        }
+                        break;
+                    case 'Enter':
+                        // NEW: Commits the move
+                        commitMove();
+                        break;
+                    case 'Toggle Mode': // NEW: Handle toggle
+                        handleToggleMode();
+                        break;
+                    default:
+                        // NEW: Appends to moveInput
+                        // FIX: Check if moveInput exists
+                        if (moveInput) {
+                            moveInput.value += value;
+                            // Add a space *unless* it's a file, rank, or special character
+                            if (!noSpaceButtons.has(value)) {
+                                moveInput.value += ' ';
+                            }
+                        }
+                }
+                // NEW: Always focus moveInput
+                // FIX: Check if moveInput exists
+                if (moveInput) {
+                    moveInput.focus();
+                }
+            });
+        }
 
         // --- NEW: Keydown Listener for moveInput ---
-        moveInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault(); // Stop form submission or newline
-                commitMove();
-            }
-        });
+        // FIX: Add check for moveInput existence
+        if (moveInput) {
+            moveInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Stop form submission or newline
+                    commitMove();
+                }
+            });
+        }
 
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
 
