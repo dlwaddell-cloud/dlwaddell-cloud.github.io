@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess PGN Exporter</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Set Inter as the default font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom focus style for accessibility */
+        textarea:focus, button:focus, input:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* blue-500 with 50% opacity */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white h-full flex items-center justify-center p-4">
+
+    <!-- Main Content Card --><div class="bg-gray-800 shadow-xl rounded-2xl p-4 w-full max-w-lg">
+        <h1 class="text-xl font-bold text-center mb-3">Chess PGN Exporter</h1>
+        
+        <p class="text-gray-400 text-xs mb-3">
+            Enter moves in the "Current Move" box and press Enter. The PGN will build above.
+        </p>
+
+        <!-- NEW: Main layout wrapper (2 columns on desktop, 1 on mobile) -->
+        <div class="flex flex-col sm:flex-row gap-4">
+            
+            <!-- Left Column (PGN Display & Move Input) -->
+            <div class="w-full sm:w-1/2 flex flex-col gap-3">
+                <!-- PGN Input Area -->
+                <div>
+                    <label for="pgn-input" class="block text-xs font-medium text-gray-300 mb-1">PGN Notation (Read-only)</label>
+                    <textarea id="pgn-input" rows="3" class="w-full p-2 bg-gray-900 border-2 border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="1. e4 e5 2. Nf3 Nc6 ..." readonly></textarea>
+                </div>
+
+                <!-- Current Move Input -->
+                <div>
+                    <label for="move-input" class="block text-xs font-medium text-gray-300 mb-1">Current Move</label>
+                    <input type="text" id="move-input" class="w-full p-2 bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Type move (e.g., e4) and press Enter">
+                </div>
+            </div>
+
+            <!-- Right Column (Header Fields) -->
+            <div class="w-full sm:w-1/2 flex flex-col gap-3">
+                <!-- White Player -->
+                <div>
+                    <!-- <label for="white-player" class="block text-xs font-medium text-gray-300 mb-1">White player</label> -->
+                    <input type="text" id="white-player" class="w-full p-2 text-sm bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="White player">
+                </div>
+                <!-- Black Player -->
+                <div>
+                    <!-- <label for="black-player" class="block text-xs font-medium text-gray-300 mb-1">Black Player</label> -->
+                    <input type="text" id="black-player" class="w-full p-2 text-sm bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Black Player">
+                </div>
+                <!-- Event -->
+                <div>
+                    <!-- <label for="event-name" class="block text-xs font-medium text-gray-300 mb-1">Event</label> -->
+                    <input type="text" id="event-name" class="w-full p-2 text-sm bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150" placeholder="Event">
+                </div>
+
+                <!-- Date and Result Row -->
+                <div class="flex gap-3">
+                    <!-- Date -->
+                    <div class="w-1/2">
+                        <!-- <label for="game-date" class="block text-xs font-medium text-gray-300 mb-1">Date</label> -->
+                        <input type="date" id="game-date" title="Game Date" class="w-full p-2 text-sm bg-gray-700 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 transition duration-150 appearance-none">
+                    </div>
+                    <!-- Result -->
+                    <div class="w-1/2">
+                        <!-- <label for="game-result" class="block text-xs font-medium text-gray-300 mb-1">Result</label> -->
+                        <select id="game-result" class="w-full p-2 text-sm bg-gray-700 border-2 border-gray-600 rounded-lg text-white focus:border-blue-500 transition duration-150 appearance-none">
+                            <option value="" disabled selected hidden>Result</option>
+                            <option value="*">* (In Progress)</option>
+                            <option value="1-0">1-0 (White Wins)</option>
+                            <option value="0-1">0-1 (Black Wins)</option>
+                            <option value="1/2-1/2">1/2-1/2 (Draw)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Entry Buttons --><div class="mt-4">
+            <label class="block text-xs font-medium text-gray-300 mb-1">Quick Entry</label>
+            <div id="quick-entry-grid" class="grid grid-cols-4 gap-1.5">
+                <!-- Buttons will be dynamically generated here --></div>
+        </div>
+
+        <!-- Action Buttons (Export) --><div class="mt-4 flex flex-col sm:flex-row gap-2">
+            <button id="export-pgn-button" class="w-full sm:w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md">
+                Export PGN
+            </button>
+            <button id="export-lichess-button" class="w-full sm:w-1/2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-md">
+                Export to Lichess
+            </button>
+        </div>
+
+        <!-- Message Box --><div id="message-box" class="text-xs text-center mt-3 h-5 transition-opacity duration-300 ease-out">
+            <!-- Messages will appear here --></div>
+    </div>
+
+    <script>
+        // Get elements
+        const pgnInput = document.getElementById('pgn-input');
+        const moveInput = document.getElementById('move-input');
+        // NEW: Get header elements
+        const whitePlayerInput = document.getElementById('white-player');
+        const blackPlayerInput = document.getElementById('black-player');
+        const eventNameInput = document.getElementById('event-name');
+        const gameDateInput = document.getElementById('game-date');
+        const gameResultInput = document.getElementById('game-result');
+
+        const exportPgnButton = document.getElementById('export-pgn-button');
+        const exportLichessButton = document.getElementById('export-lichess-button');
+        const messageBox = document.getElementById('message-box');
+        let messageTimeout;
+        // NEW: State management for moves
+        let moves = [];
+        let undoStack = []; // This will store previous 'moves' arrays
+
+        // --- Button Definitions ---
+        const quickEntryGrid = document.getElementById('quick-entry-grid');
+        // Adjusted layout to match the new image
+        const buttonsLayout = [
+            'R', 'a', '1', '+',
+            'N', 'b', '2', '#',
+            'B', 'c', '3', null,
+            'Q', 'd', '4', 'Enter', // Green button
+            'K', 'e', '5', 'Backspace',
+            'x', 'f', '6', 'Undo Move',
+            'O-O', 'g', '7', 'Clear All', // Red button
+            'O-O-O', 'h', '8', null
+        ];
+        // Buttons that should NOT have a space added after them
+        const noSpaceButtons = new Set(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', '1', '2', '3', '4', '5', '6', '7', '8', '+', '#', 'x']);
+        // COMPACTED: py-1.5 instead of py-2
+        const defaultButtonClasses = "w-full py-1.5 px-1 bg-gray-600 hover:bg-gray-500 text-white font-mono rounded-md text-center transition duration-150";
+
+        // --- Generate Quick Entry Buttons ---
+        buttonsLayout.forEach(label => {
+            if (label) {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.dataset.value = label;
+                
+                let classes = defaultButtonClasses;
+                if (label === 'Enter') {
+                    classes = "w-full py-1.5 px-1 bg-green-600 hover:bg-green-700 text-white font-mono rounded-md text-center transition duration-150 notation-button";
+                } else if (label === 'Clear All') {
+                    classes = "w-full py-1.5 px-1 bg-red-600 hover:bg-red-700 text-white font-mono rounded-md text-center transition duration-150 notation-button";
+                } else {
+                    classes += " notation-button"; // Add the delegation class
+                }
+                
+                button.className = classes;
+                button.textContent = label;
+                quickEntryGrid.appendChild(button);
+            } else {
+                // Add a spacer for null values to keep the grid layout
+                const spacer = document.createElement('div');
+                quickEntryGrid.appendChild(spacer);
+            }
+        });
+
+        // --- NEW: Set default date ---
+        gameDateInput.value = new Date().toISOString().split('T')[0];
+
+        // --- NEW: PGN Rendering Function ---
+        /**
+         * Renders the 'moves' array into the PGN text area.
+         */
+        function renderPgnFromMoves() {
+            let formattedMovesString = "";
+            let moveNumber = 1;
+
+            for (let i = 0; i < moves.length; i++) {
+                const move = moves[i];
+                if (i % 2 === 0) { // White's move
+                    // Add newline before move number (except for the first one)
+                    if (moveNumber > 1) {
+                        formattedMovesString += "\n";
+                    }
+                    formattedMovesString += `${moveNumber}. ${move} `;
+                } else { // Black's move
+                    formattedMovesString += `${move} `;
+                    moveNumber++;
+                }
+            }
+            
+            pgnInput.value = formattedMovesString.trim();
+        }
+
+        // --- NEW: Commit Move Function ---
+        /**
+         * Commits the move from the move-input field to the state.
+         */
+        function commitMove() {
+            const newMove = moveInput.value.trim();
+            if (!newMove) {
+                return; // Don't commit empty moves
+            }
+
+            // NEW: Check if the entered text is a result
+            const results = ['1-0', '0-1', '1/2-1/2', '*'];
+            if (results.includes(newMove)) {
+                // If it is, set the dropdown and don't add to moves
+                gameResultInput.value = newMove;
+                moveInput.value = '';
+                moveInput.focus();
+                return;
+            }
+
+            // Save the current state for undo
+            undoStack.push([...moves]);
+            
+            // Add the new move
+            moves.push(newMove);
+            
+            // Re-render the PGN display
+            renderPgnFromMoves();
+            
+            // Clear the input field and focus it
+            moveInput.value = '';
+            moveInput.focus();
+        }
+
+        // --- RE-ADDED: showMessage function ---
+        /**
+         * Shows a message to the user and fades it out.
+         * @param {string} text - The message to display.
+         * @param {boolean} isError - True for error (red), false for success (green).
+         */
+        function showMessage(text, isError = false) {
+            // Clear any existing fade-out timeout
+            if (messageTimeout) {
+                clearTimeout(messageTimeout);
+            }
+
+            messageBox.textContent = text;
+            messageBox.classList.remove('text-red-400', 'text-green-400', 'opacity-0');
+            
+            if (isError) {
+                messageBox.classList.add('text-red-400');
+            } else {
+                messageBox.classList.add('text-green-400');
+            }
+
+            // Set timeout to fade out
+            messageTimeout = setTimeout(() => {
+                messageBox.classList.add('opacity-0');
+            }, 3000); // Message visible for 3 seconds
+        }
+
+        /**
+         * Generates the full PGN content, including headers.
+         * @returns {string} The full PGN string.
+         */
+        function getFullPgnContent() {
+            let text = pgnInput.value.trim();
+            
+            // NEW: Get values from header inputs
+            const eventName = eventNameInput.value.trim() || '?';
+            const gameDate = gameDateInput.value ? gameDateInput.value.replace(/-/g, '.') : new Date().toISOString().split('T')[0].replace(/-/g, '.');
+            const whitePlayer = whitePlayerInput.value.trim() || '?';
+            const blackPlayer = blackPlayerInput.value.trim() || '?';
+            const result = gameResultInput.value || '*'; // Get result from dropdown, default to '*'
+            
+            let formattedMovesString = text; // Already formatted
+            
+            // This logic is no longer needed, as `commitMove` handles results
+            // if (moves.length > 0) { ... }
+            
+            let resultString = result;
+            if (result === '*') {
+                resultString = ''; // Don't append '*' to the end of the move list
+            } else {
+                resultString = ` ${result}`; // Append '1-0', '0-1', or '1/2-1/2'
+            }
+
+            return `[Event "${eventName}"]
+[Site "Web PGN Exporter"]
+[Date "${gameDate}"]
+[Round "?"]
+[White "${whitePlayer}"]
+[Black "${blackPlayer}"]
+[Result "${result}"]
+
+${formattedMovesString}${resultString}`;
+        }
+
+
+        /**
+         * Handles the PGN export logic.
+         */
+        function handleExportPgn() {
+            const pgnContent = getFullPgnContent();
+
+            if (!pgnInput.value.trim()) {
+                showMessage('Please enter chess notation first.', true);
+                return;
+            }
+
+            // Create a blob (file in memory)
+            const blob = new Blob([pgnContent], { type: 'application/x-chess-pgn;charset=utf-8' });
+            
+            // Create a temporary link to trigger the download
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'game.pgn';
+            
+            // Append to DOM, click, and remove
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Revoke the URL to free up memory
+            URL.revokeObjectURL(link.href);
+
+            showMessage('PGN file exported successfully!', false);
+        }
+
+        /**
+         * Clears the text area.
+         */
+        function handleClearAll() {
+            if (moves.length > 0) {
+                undoStack.push([...moves]); // Save state for undo
+            }
+            moves = [];
+            renderPgnFromMoves(); // Update display
+            moveInput.value = ''; // Clear move input
+            showMessage('Input cleared.', false);
+            moveInput.focus();
+        }
+
+        /**
+         * --- MODIFIED: Lichess Export Function ---
+         * Uses a hidden form to POST to lichess.org/paste
+         */
+        function handleExportLichess() {
+            const pgnContent = getFullPgnContent();
+            
+            if (!pgnInput.value.trim()) {
+                showMessage('Please enter chess notation to export to Lichess.', true);
+                return;
+            }
+
+            // Create a hidden form
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'https://lichess.org/paste';
+            form.target = '_blank'; // Open in a new tab
+
+            // Create a hidden input field for the PGN data
+            const pgnData = document.createElement('input');
+            pgnData.type = 'hidden';
+            pgnData.name = 'pgn';
+            pgnData.value = pgnContent;
+            
+            // Add the input to the form
+            form.appendChild(pgnData);
+            
+            // Add the form to the document, submit it, and then remove it
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+
+            showMessage('Opening Lichess import...', false);
+        }
+
+        // Add event listeners
+        exportPgnButton.addEventListener('click', handleExportPgn);
+        exportLichessButton.addEventListener('click', handleExportLichess);
+        
+        // --- Quick Entry Button Listener (using event delegation) ---
+        quickEntryGrid.addEventListener('click', (e) => {
+            const button = e.target.closest('.notation-button');
+            if (!button) return; // Clicked on grid gap
+
+            const value = button.dataset.value;
+
+            switch (value) {
+                case 'Clear All': // This "Clear" is for the quick entry grid
+                    handleClearAll();
+                    break;
+                case 'Backspace':
+                    // NEW: Affects moveInput
+                    moveInput.value = moveInput.value.slice(0, -1);
+                    break;
+                case 'Undo Move':
+                    // NEW: Uses undoStack
+                    if (undoStack.length > 0) {
+                        moves = undoStack.pop();
+                        renderPgnFromMoves();
+                    }
+                    break;
+                case 'Enter':
+                    // NEW: Commits the move
+                    commitMove();
+                    break;
+                default:
+                    // NEW: Appends to moveInput
+                    moveInput.value += value;
+                    // Add a space *unless* it's a file, rank, or special character
+                    if (!noSpaceButtons.has(value)) {
+                        moveInput.value += ' ';
+                    }
+            }
+            // NEW: Always focus moveInput
+            moveInput.focus();
+        });
+
+        // --- NEW: Keydown Listener for moveInput ---
+        moveInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Stop form submission or newline
+                commitMove();
+            }
+        });
+
+    </script>
+</body>
+</html>
+
+
